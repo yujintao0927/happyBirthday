@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Countdown</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .countdown {
+            font-size: 2em;
+            margin: 20px;
+        }
+        .animation {
+            display: none;
+        }
+        .fireworks {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 50px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<h1>Countdown to Birthday</h1>
+<div class="countdown">
+    <p>Days: <span id="days"></span></p>
+    <p>Hours: <span id="hours"></span></p>
+    <p>Minutes: <span id="minutes"></span></p>
+    <p>Seconds: <span id="seconds"></span></p>
+</div>
+
+<div class="animation fireworks" id="fireworks">🎆🎇 Happy Birthday! 🎆🎇</div>
+
+<script>
+    function updateCountdown() {
+        fetch('/countdown')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('days').textContent = data.days;
+                document.getElementById('hours').textContent = data.hours;
+                document.getElementById('minutes').textContent = data.minutes;
+                document.getElementById('seconds').textContent = data.seconds;
+
+                if (data.days === 0 && data.hours === 0 && data.minutes === 0 && data.seconds === 0) {
+                    document.getElementById('fireworks').style.display = 'block';
+                }
+            });
+    }
+
+    setInterval(updateCountdown, 1000); // 每秒钟更新一次倒计时
+</script>
+</body>
+</html>
